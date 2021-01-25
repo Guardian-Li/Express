@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>速达快递系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix" th:fragment="top">
+        <div class="col-md-12 column">
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="/main">速达快递</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <form class="navbar-form navbar-left" role="search" action="/main/search" method="post">
+                        <div class="form-group" >
+                            <input type="text" class="form-control" name="message"/>
+                        </div> <button type="submit" class="btn btn-default">搜索</button>
+                    </form>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-4 column">
+            <form role="form" action="/main/addBill" method="post">
+                <p style="color: red" th:text="${msg}" th:if="${!#strings.isEmpty(msg)}"></p>
+                <div class="form-group">
+                    <label>寄件人姓名</label>
+                    <input type="text" class="form-control"  name="sendName" />
+                    <label >寄件人电话号码</label>
+                    <input type="text" class="form-control" name="sendPhoneNumber" />
+                    <label >寄件人地址</label>
+                    <input type="text" class="form-control" name="sendLocal">
+                </div>
+                <div class="form-group">
+                    <label>收件人姓名</label>
+                    <input type="text" class="form-control"  name="recName" />
+                    <label >收件人电话号码</label>
+                    <input type="text" class="form-control" name="recPhoneNumber" />
+                    <label >收件人地址</label>
+                    <input type="text" class="form-control" name="recLocal">
+                </div>
+
+                <button type="submit" class="btn btn-default">快速添加快递单</button>
+            </form>
+
+
+        </div>
+        <div class="col-md-8 column">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>
+                        快递单号
+                    </th>
+                    <th>
+                        寄件人姓名
+                    </th>
+                    <th>
+                        收件人姓名
+                    </th>
+                    <th>
+                        收件人电话
+                    </th>
+                    <th>
+                        收件人地址
+                    </th>
+                    <th>
+                        详细信息
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <p th:text="${searchMsg}" th:if="${!#strings.isEmpty(searchMsg)}"></p>
+                <tr th:each="bill:${bills}" th:if="${bills}">
+                    <th th:text="${bill.getId()}"></th>
+                    <th th:text="${bill.getSendName()}"></th>
+                    <th th:text="${bill.getRecName()}"></th>
+                    <th th:text="${bill.getRecPhoneNumber()}"></th>
+                    <th th:text="${bill.getRecLocal()}"></th>
+                    <th ><button><a th:href="@{/main/detail/{id}(id=${bill.getId()})}">详细信息</a></button></th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+<script src="/js/bootstrap.min.js"></script>
+</body>
+</html>

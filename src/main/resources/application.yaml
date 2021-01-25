@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    username: root
+    password: 123456789
+    url: jdbc:mysql://127.0.0.1:3306/express?useUnicode=true&characterEncoding=utf-8
+  thymeleaf:
+    cache: false
+server:
+  port: 8083
+
+mybatis-plus:
+  type-aliases-package: express.guyuxiao.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+
+
