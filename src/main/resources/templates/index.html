@@ -23,6 +23,7 @@
 	<!--    <label class="sr-only">Password</label>-->
 	<input type="password" name="Password" class="form-control" placeholder="密码" required="">
 	<!--	<input  type="password" name="rePassword" class="form-control" placeholder="重复输入密码" required="">-->
+	<input type="text" name="verify" class="form-control" placeholder="验证码" style="width: 100px;float: left" required=""><img src="/kaptcha" style="width: 160px;height: 46px;float: left;padding-left: 40px" onclick="this.src='/kaptcha?d='+new Date()*1">
 	<button  class="btn btn-lg btn-primary btn-block" type="submit" style="margin-top: 20px">登陆</button>
 	<button  class="btn btn-lg btn-primary btn-block"  style="margin-top: 1px" onclick="window.location.href='/login/sign'" type="button">注册</button>
 	<p class="mt-5 mb-3 text-muted">© 2020-2021 Gu Yu Xiao</p>

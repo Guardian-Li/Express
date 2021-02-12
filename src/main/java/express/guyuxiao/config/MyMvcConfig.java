@@ -24,7 +24,8 @@ public class MyMvcConfig implements WebMvcConfigurer {
                 "/img/*",
                 "/fonts/*",
                 "/signUp",
-                "/sign");
+                "/sign",
+                "/kaptcha/*");
     }
 }
 

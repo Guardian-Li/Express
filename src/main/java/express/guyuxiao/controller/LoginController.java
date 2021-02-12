@@ -1,6 +1,7 @@
 package express.guyuxiao.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.mysql.cj.util.StringUtils;
 import express.guyuxiao.dao.UserMapper;
 import express.guyuxiao.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class LoginController {
     @RequestMapping("/index")
     public String indexLogin(@RequestParam("Username")String Username,
                              @RequestParam("Password")String Password,
+                             @RequestParam("verify")String verify,
                              Model model,
                              HttpSession session){
         QueryWrapper<User> queryWrapper = new QueryWrapper<User>();
@@ -33,8 +35,23 @@ public class LoginController {
             return "index";
         }else{
             if(user.getPassword().equals(Password)){
-                session.setAttribute("loginUser","user");
-                return "redirect:/main";
+                if(StringUtils.isNullOrEmpty(verify)){
+                    model.addAttribute("msg","请输入验证码");
+                    return "index";
+                }else{
+                    String kaptchaCode = session.getAttribute("verifyCode") + "";
+                    if (StringUtils.isNullOrEmpty(kaptchaCode) || verify.equals(kaptchaCode)) {
+
+                        session.setAttribute("loginUser","user");
+
+                        return  "redirect:/main";
+                    }else{
+                        model.addAttribute("msg","验证码不正确");
+                        return "index";
+                    }
+                }
+
+
             }else{
                 model.addAttribute("msg","密码错误");
                 return "index";
