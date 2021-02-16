@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/login")
@@ -40,6 +41,7 @@ public class LoginController {
                     return "index";
                 }else{
                     String kaptchaCode = session.getAttribute("verifyCode") + "";
+                    verify = verify.toLowerCase(Locale.ROOT);
                     if (StringUtils.isNullOrEmpty(kaptchaCode) || verify.equals(kaptchaCode)) {
 
                         session.setAttribute("loginUser","user");
@@ -63,6 +65,8 @@ public class LoginController {
     public String signUp(@RequestParam("Username")String Username,
                          @RequestParam("Password")String Password,
                          @RequestParam("rePassword")String rePassword,
+                         @RequestParam("verify")String verify,
+                         HttpSession session,
                          Model model){
         if(Username==null || Password==null || rePassword ==null){
             model.addAttribute("msg","请输入完整用户信息");
@@ -71,6 +75,12 @@ public class LoginController {
             model.addAttribute("msg","两次密码不一致");
             return "signUp";
         }else{
+            String kaptchaCode = session.getAttribute("verifyCode") + "";
+            verify = verify.toLowerCase(Locale.ROOT);
+            if (StringUtils.isNullOrEmpty(kaptchaCode) || !verify.equals(kaptchaCode)){
+                model.addAttribute("msg","验证码不一致");
+                return "signUp";
+            }
             User user=new User(Username,Password);
             userMapper.insert(user);
             model.addAttribute("msg","注册成功");
