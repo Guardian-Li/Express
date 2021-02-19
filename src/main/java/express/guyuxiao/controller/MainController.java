@@ -2,7 +2,9 @@ package express.guyuxiao.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import express.guyuxiao.dao.BillMapper;
+import express.guyuxiao.dao.UserMapper;
 import express.guyuxiao.pojo.Bill;
+import express.guyuxiao.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.swing.text.StyledEditorKit;
 import java.util.List;
 
@@ -19,6 +22,8 @@ import java.util.List;
 public class MainController {
     @Autowired
     BillMapper billMapper;
+    @Autowired
+    UserMapper userMapper;
     @RequestMapping("/addBill")
     public String addBill(
             @RequestParam("sendName")String sendName,
@@ -60,7 +65,7 @@ public class MainController {
                 isNumber=false;
             }
         }
-        System.out.println(isNumber);
+        //System.out.println(isNumber);
         if(isNumber){
             if(message.length()==11){
                 billList=billMapper.selectList(queryWrapper.eq("send_phone_number",message).or().eq("rec_phone_number",message));
@@ -98,5 +103,35 @@ public class MainController {
         return "main";
     }
 
+    @GetMapping("/changePassword")
+    public String changePassword(){
+        return "changePassword";
+    }
+
+    @RequestMapping("/changePasswordForm")
+    public String changePasswordForm(HttpServletRequest request,
+                                     Model model,
+                                     @RequestParam("oldPassword")String oldPassword,
+                                     @RequestParam("newPassword")String newPassword){
+       Integer id=(Integer) request.getSession().getAttribute("loginId");
+        System.out.println(id);
+       User user = userMapper.selectById(id);
+//        System.out.println(id);
+//        System.out.println(user);
+        if(!oldPassword.equals(user.getPassword()) ){
+            System.out.println(oldPassword);
+            model.addAttribute("msg","旧密码不正确");
+        }else{
+            model.addAttribute("msg","修改成功");
+            user.setPassword(newPassword);
+            try{
+                userMapper.updateById(user);
+            }catch (Exception e){
+                model.addAttribute("msg","密码超过限定长度200字节");
+            }
+
+        }
+        return "changePassword";
+    }
 
 }

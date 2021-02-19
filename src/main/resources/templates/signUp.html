@@ -6,13 +6,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>速达快递注册系统</title>
-
     <link th:href="@{/css/signin.css}" rel="stylesheet">
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-
-
 </head>
-
 <body class="text-center">
 <form class="form-signin" th:action="@{/login/signUp}" method="post" >
     <img class="mb-4" th:src="@{/img/bootstrap-solid.svg}" alt="" width="72" height="72">
@@ -24,7 +20,7 @@
     <!--    <label class="sr-only">Password</label>-->
     <input type="password" name="Password" class="form-control" placeholder="密码" required="">
     <input  type="password" name="rePassword" class="form-control"  placeholder="重复输入密码" required="">
-    <input type="text" name="verify" class="form-control" placeholder="验证码" style="width: 100px;float: left" required=""><img src="/kaptcha" style="width: 160px;height: 46px;float: left;padding-left: 40px" onclick="this.src='/kaptcha?d='+new Date()*1">
+    <input type="text" name="verify" class="form-control" placeholder="验证码" style="width: 100px;float: left;margin-top: 5px" required=""><img src="/kaptcha" style="width: 160px;height: 46px;float: left;padding-left: 40px" onclick="this.src='/kaptcha?d='+new Date()*1">
     <button  class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
     <p class="mt-5 mb-3 text-muted">© 2020-2021 Gu Yu xiao</p>
 

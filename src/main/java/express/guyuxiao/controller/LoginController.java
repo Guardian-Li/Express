@@ -45,6 +45,8 @@ public class LoginController {
                     if (StringUtils.isNullOrEmpty(kaptchaCode) || verify.equals(kaptchaCode)) {
 
                         session.setAttribute("loginUser","user");
+                        QueryWrapper<User> idSQL = new QueryWrapper<>();
+                        session.setAttribute("loginId",userMapper.selectOne(idSQL.eq("username",Username)).getId());
 
                         return  "redirect:/main";
                     }else{
@@ -68,10 +70,15 @@ public class LoginController {
                          @RequestParam("verify")String verify,
                          HttpSession session,
                          Model model){
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         if(Username==null || Password==null || rePassword ==null){
             model.addAttribute("msg","请输入完整用户信息");
             return "signUp";
-        }else if( rePassword.equals(Password) == false){
+        }else if (userMapper.selectList(queryWrapper.eq("username",Username)).size() > 0){
+            model.addAttribute("msg","用户名已存在");
+            return "signUp";
+        }
+        else if( rePassword.equals(Password) == false){
             model.addAttribute("msg","两次密码不一致");
             return "signUp";
         }else{
@@ -81,7 +88,9 @@ public class LoginController {
                 model.addAttribute("msg","验证码不一致");
                 return "signUp";
             }
-            User user=new User(Username,Password);
+            User user=new User();
+            user.setUsername(Username);
+            user.setPassword(rePassword);
             userMapper.insert(user);
             model.addAttribute("msg","注册成功");
             return "index";
