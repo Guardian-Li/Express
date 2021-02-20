@@ -13,6 +13,9 @@
         <div class="col-md-12 column">
             <dl>
                 <dt>
+                    快递单号：[[${bill.getId()}]]
+                </dt>
+                <dt>
                    寄件人: [[${bill.getSendName()}]] [[${bill.getSendPhoneNumber()}]]
                 </dt>
                 <dd>
@@ -28,7 +31,8 @@
                 </dd>
             </dl>
         </div>
-        <button th:text="修改" class="btn btn-info" ></button><button class="btn btn-danger"><a th:href="@{/main/delete/{id}(id=${bill.getId()})}">删除</a></button>
+        <button class="btn btn-info"  type="button"><a style="color: black" th:href="@{/main/update/{id}(id=${bill.getId()})}">修改</a></button>
+        <button class="btn btn-danger" type="button"><a th:href="@{/main/delete/{id}(id=${bill.getId()})}">删除</a></button>
     </div>
 </div>
 </body>

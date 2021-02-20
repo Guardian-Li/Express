@@ -24,6 +24,8 @@ public class MainController {
     BillMapper billMapper;
     @Autowired
     UserMapper userMapper;
+
+
     @RequestMapping("/addBill")
     public String addBill(
             @RequestParam("sendName")String sendName,
@@ -45,8 +47,10 @@ public class MainController {
             bill.setRecName(recName);
             bill.setRecPhoneNumber(recPhoneNumber);
             bill.setRecLocal(recLocal);
-            Integer id = billMapper.selectCount(new QueryWrapper<>())+1000;
-            bill.setId(id+1);
+            QueryWrapper<Bill> queryWrapper = new QueryWrapper<>();
+            Integer id = billMapper.selectOne(queryWrapper.orderByDesc("id").last("limit 1")).getId();
+            id = id +1;
+            bill.setId(id);
             if(billMapper.insert(bill) == 1)
                 model.addAttribute("msg","插入成功，订单号为："+id);
         }
@@ -134,4 +138,17 @@ public class MainController {
         return "changePassword";
     }
 
+    @GetMapping("/update/{id}")
+    public String updateBill(Model model,@PathVariable("id") String id){
+        Bill bill = billMapper.selectById(id);
+        model.addAttribute("bill",bill);
+        return "update";
+    }
+    @RequestMapping("/update/updatebill")
+    public String updateBill2SQL(Model model,
+                                 @RequestParam("sendName")String sendName){
+        //TODO:修改
+        return "update";
+    }
 }
+

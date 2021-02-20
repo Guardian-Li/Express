@@ -1,5 +1,7 @@
 package express.guyuxiao.pojo;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-    private Integer Id;
+
     private String Username;
     private String  Password;
+    @TableId(type = IdType.AUTO)
+    private Integer id;
 }

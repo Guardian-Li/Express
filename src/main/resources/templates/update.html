@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>更新快递单信息</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div th:insert="main::top"></div>
+    <div class="row clearfix">
+        <div class="col-md-4 column">
+            <form role="form" action="/main/update/updatebill" method="post">
+                <p style="color: red" th:text="${msg}" th:if="${!#strings.isEmpty(msg)}"></p>
+                <p>请修改需要修改的内容，不修改的内容可不输入</p>
+                <div class="form-group">
+                    <input type="hidden" th:value="${bill.getId()}">
+                    <label>寄件人姓名</label>
+                    <input type="text" class="form-control"  name="sendName" th:value="${bill.getSendName()}" th:placeholder="${bill.getSendName()}" />
+                    <label >寄件人电话号码</label>
+                    <input type="text" class="form-control" name="sendPhoneNumber"  />
+                    <label >寄件人地址</label>
+                    <input type="text" class="form-control" name="sendLocal">
+                </div>
+                <div class="form-group">
+                    <label>收件人姓名</label>
+                    <input type="text" class="form-control"  name="recName" />
+                    <label >收件人电话号码</label>
+                    <input type="text" class="form-control" name="recPhoneNumber" />
+                    <label >收件人地址</label>
+                    <input type="text" class="form-control" name="recLocal">
+                </div>
+
+                <button type="submit" class="btn btn-default">修改</button>
+            </form>
+</div>
+</body>
+</html>

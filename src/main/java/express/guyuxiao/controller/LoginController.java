@@ -91,6 +91,7 @@ public class LoginController {
             User user=new User();
             user.setUsername(Username);
             user.setPassword(rePassword);
+            System.out.println(user.getId());
             userMapper.insert(user);
             model.addAttribute("msg","注册成功");
             return "index";
